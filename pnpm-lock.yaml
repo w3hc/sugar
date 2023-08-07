@@ -9,12 +9,16 @@ specifiers:
   '@types/node': 20.4.8
   '@types/react': 18.2.18
   '@types/react-dom': 18.2.7
+  '@walletconnect/sign-client': ^2.9.2
   '@web3auth/base': ^6.1.4
   '@web3auth/metamask-adapter': ^6.1.4
   '@web3auth/modal': ^6.1.5
+  '@web3auth/openlogin-adapter': ^6.1.7
   '@web3auth/torus-evm-adapter': ^6.1.4
   '@web3auth/torus-wallet-connector-plugin': ^6.1.4
   '@web3auth/wallet-connect-v1-adapter': ^6.1.3
+  '@web3auth/wallet-connect-v2-adapter': ^6.1.7
+  encoding: ^0.1.13
   eslint: 8.46.0
   eslint-config-next: 13.4.12
   ethers: ^6.7.0
@@ -34,12 +38,16 @@ dependencies:
   '@types/node': 20.4.8
   '@types/react': 18.2.18
   '@types/react-dom': 18.2.7
+  '@walletconnect/sign-client': 2.9.2
   '@web3auth/base': 6.1.7
   '@web3auth/metamask-adapter': 6.1.7
-  '@web3auth/modal': 6.1.7_biqbaboplfbrettd7655fr4n2y
+  '@web3auth/modal': 6.1.7_2l4jw7ka233a36i2doykelws3u
+  '@web3auth/openlogin-adapter': 6.1.7
   '@web3auth/torus-evm-adapter': 6.1.7
   '@web3auth/torus-wallet-connector-plugin': 6.1.7
   '@web3auth/wallet-connect-v1-adapter': 6.1.7
+  '@web3auth/wallet-connect-v2-adapter': 6.1.7_xhbfqwgypzewroet7ofbabm4ke
+  encoding: 0.1.13
   eslint: 8.46.0
   eslint-config-next: 13.4.12_7haavtekmro7ptbnqmctjaodju
   ethers: 6.7.0
@@ -1686,7 +1694,7 @@ packages:
       buffer: 6.0.3
     dev: false
 
-  /@solana/web3.js/1.78.3:
+  /@solana/web3.js/1.78.3_encoding@0.1.13:
     resolution: {integrity: sha512-qhpnyIlrj/4Czw1dBFZK6KgZBk5FwuJhvMl0C7m94jhl90yDC8b6w4svKwPjhB+OOrdQAzHyRp0+ocEs/Liw7w==}
     dependencies:
       '@babel/runtime': 7.22.6
@@ -1701,7 +1709,7 @@ packages:
       buffer: 6.0.3
       fast-stable-stringify: 1.0.0
       jayson: 4.1.0
-      node-fetch: 2.6.12
+      node-fetch: 2.6.12_encoding@0.1.13
       rpc-websockets: 7.5.1
       superstruct: 0.14.2
     transitivePeerDependencies:
@@ -1744,6 +1752,14 @@ packages:
 
   /@stablelib/constant-time/1.0.1:
     resolution: {integrity: sha512-tNOs3uD0vSJcK6z1fvef4Y+buN7DXhzHDPqRLSXUel1UfqMB1PWNsnnAezrKfEwTLpN0cGH2p9NNjs6IqeD0eg==}
+    dev: false
+
+  /@stablelib/ed25519/1.0.3:
+    resolution: {integrity: sha512-puIMWaX9QlRsbhxfDc5i+mNPMY+0TmQEskunY1rZEBPi1acBCVQAhnsk/1Hk50DGPtVsZtAWQg4NHGlVaO9Hqg==}
+    dependencies:
+      '@stablelib/random': 1.0.2
+      '@stablelib/sha512': 1.0.1
+      '@stablelib/wipe': 1.0.1
     dev: false
 
   /@stablelib/hash/1.0.1:
@@ -1792,6 +1808,14 @@ packages:
 
   /@stablelib/sha256/1.0.1:
     resolution: {integrity: sha512-GIIH3e6KH+91FqGV42Kcj71Uefd/QEe7Dy42sBTeqppXV95ggCcxLTk39bEr+lZfJmp+ghsR07J++ORkRELsBQ==}
+    dependencies:
+      '@stablelib/binary': 1.0.1
+      '@stablelib/hash': 1.0.1
+      '@stablelib/wipe': 1.0.1
+    dev: false
+
+  /@stablelib/sha512/1.0.1:
+    resolution: {integrity: sha512-13gl/iawHV9zvDKciLo1fQ8Bgn2Pvf7OV6amaRVKiq3pjQ3UmEpXxWiAfV8tYjUpeZroBxtyrwtdooQT/i3hzw==}
     dependencies:
       '@stablelib/binary': 1.0.1
       '@stablelib/hash': 1.0.1
@@ -2021,13 +2045,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@toruslabs/solana-embed/1.0.0:
+  /@toruslabs/solana-embed/1.0.0_encoding@0.1.13:
     resolution: {integrity: sha512-kQRCkGX7qn1vHOnsDibP3PJObs2TZ2tTyrtYuBH3O4uzx2eYbVLHD6EKUw9mpoZocyohPQxlUX8zcmLuStu5vg==}
     engines: {node: '>=16.18.1', npm: '>=8.x'}
     peerDependencies:
       '@babel/runtime': 7.x
     dependencies:
-      '@solana/web3.js': 1.78.3
+      '@solana/web3.js': 1.78.3_encoding@0.1.13
       '@toruslabs/base-controllers': 3.1.0
       '@toruslabs/http-helpers': 4.0.0
       '@toruslabs/openlogin-jrpc': 4.7.2
@@ -2217,6 +2241,38 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: false
 
+  /@walletconnect/core/2.9.2:
+    resolution: {integrity: sha512-VARMPAx8sIgodeyngDHbealP3B621PQqjqKsByFUTOep8ZI1/R/20zU+cmq6j9RCrL+kLKZcrZqeVzs8Z7OlqQ==}
+    dependencies:
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-provider': 1.0.13
+      '@walletconnect/jsonrpc-types': 1.0.3
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/jsonrpc-ws-connection': 1.0.13
+      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/logger': 2.0.1
+      '@walletconnect/relay-api': 1.0.9
+      '@walletconnect/relay-auth': 1.0.4
+      '@walletconnect/safe-json': 1.0.2
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.9.2
+      '@walletconnect/utils': 2.9.2
+      events: 3.3.0
+      lodash.isequal: 4.5.0
+      uint8arrays: 3.1.1
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - bufferutil
+      - lokijs
+      - utf-8-validate
+    dev: false
+
+  /@walletconnect/environment/1.0.1:
+    resolution: {integrity: sha512-T426LLZtHj8e8rYnKfzsw1aG6+M0BT1ZxayMdv/p8yM0MU+eJDISqNY3/bccxRr4LrF9csq02Rhqt08Ibl0VRg==}
+    dependencies:
+      tslib: 1.14.1
+    dev: false
+
   /@walletconnect/events/1.0.1:
     resolution: {integrity: sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==}
     dependencies:
@@ -2232,11 +2288,40 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /@walletconnect/jsonrpc-provider/1.0.13:
+    resolution: {integrity: sha512-K73EpThqHnSR26gOyNEL+acEex3P7VWZe6KE12ZwKzAt2H4e5gldZHbjsu2QR9cLeJ8AXuO7kEMOIcRv1QEc7g==}
+    dependencies:
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/safe-json': 1.0.2
+      tslib: 1.14.1
+    dev: false
+
   /@walletconnect/jsonrpc-types/1.0.3:
     resolution: {integrity: sha512-iIQ8hboBl3o5ufmJ8cuduGad0CQm3ZlsHtujv9Eu16xq89q+BG7Nh5VLxxUgmtpnrePgFkTwXirCTkwJH1v+Yw==}
     dependencies:
       keyvaluestorage-interface: 1.0.0
       tslib: 1.14.1
+    dev: false
+
+  /@walletconnect/jsonrpc-utils/1.0.8:
+    resolution: {integrity: sha512-vdeb03bD8VzJUL6ZtzRYsFMq1eZQcM3EAzT0a3st59dyLfJ0wq+tKMpmGH7HlB7waD858UWgfIcudbPFsbzVdw==}
+    dependencies:
+      '@walletconnect/environment': 1.0.1
+      '@walletconnect/jsonrpc-types': 1.0.3
+      tslib: 1.14.1
+    dev: false
+
+  /@walletconnect/jsonrpc-ws-connection/1.0.13:
+    resolution: {integrity: sha512-mfOM7uFH4lGtQxG+XklYuFBj6dwVvseTt5/ahOkkmpcAEgz2umuzu7fTR+h5EmjQBdrmYyEBOWADbeaFNxdySg==}
+    dependencies:
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/safe-json': 1.0.2
+      events: 3.3.0
+      tslib: 1.14.1
+      ws: 7.5.9
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /@walletconnect/keyvaluestorage/1.0.2:
@@ -2274,10 +2359,40 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /@walletconnect/relay-auth/1.0.4:
+    resolution: {integrity: sha512-kKJcS6+WxYq5kshpPaxGHdwf5y98ZwbfuS4EE/NkQzqrDFm5Cj+dP8LofzWvjrrLkZq7Afy7WrQMXdLy8Sx7HQ==}
+    dependencies:
+      '@stablelib/ed25519': 1.0.3
+      '@stablelib/random': 1.0.2
+      '@walletconnect/safe-json': 1.0.2
+      '@walletconnect/time': 1.0.2
+      tslib: 1.14.1
+      uint8arrays: 3.1.1
+    dev: false
+
   /@walletconnect/safe-json/1.0.2:
     resolution: {integrity: sha512-Ogb7I27kZ3LPC3ibn8ldyUr5544t3/STow9+lzz7Sfo808YD7SBWk7SAsdBFlYgP2zDRy2hS3sKRcuSRM0OTmA==}
     dependencies:
       tslib: 1.14.1
+    dev: false
+
+  /@walletconnect/sign-client/2.9.2:
+    resolution: {integrity: sha512-anRwnXKlR08lYllFMEarS01hp1gr6Q9XUgvacr749hoaC/AwGVlxYFdM8+MyYr3ozlA+2i599kjbK/mAebqdXg==}
+    dependencies:
+      '@walletconnect/core': 2.9.2
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/logger': 2.0.1
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.9.2
+      '@walletconnect/utils': 2.9.2
+      events: 3.3.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - bufferutil
+      - lokijs
+      - utf-8-validate
     dev: false
 
   /@walletconnect/time/1.0.2:
@@ -2462,7 +2577,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/modal/6.1.7_biqbaboplfbrettd7655fr4n2y:
+  /@web3auth/modal/6.1.7_2l4jw7ka233a36i2doykelws3u:
     resolution: {integrity: sha512-ekUvj9o+uCODhNE5RGH1G4pg/8fA3UoZewO8hd8HViUQ3IQCreWwwmFzPHBILGingh0IbIm0oOo6CiOmaZ6BBQ==}
     engines: {node: '>=16.18.1', npm: '>=8.x'}
     peerDependencies:
@@ -2478,9 +2593,9 @@ packages:
       '@web3auth/phantom-adapter': 6.1.7
       '@web3auth/solana-provider': 6.1.7
       '@web3auth/torus-evm-adapter': 6.1.7
-      '@web3auth/torus-solana-adapter': 6.1.7
+      '@web3auth/torus-solana-adapter': 6.1.7_encoding@0.1.13
       '@web3auth/ui': 6.1.7_biqbaboplfbrettd7655fr4n2y
-      '@web3auth/wallet-connect-v2-adapter': 6.1.7
+      '@web3auth/wallet-connect-v2-adapter': 6.1.7_xhbfqwgypzewroet7ofbabm4ke
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@sentry/types'
@@ -2594,14 +2709,14 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/torus-solana-adapter/6.1.7:
+  /@web3auth/torus-solana-adapter/6.1.7_encoding@0.1.13:
     resolution: {integrity: sha512-1yuKYlIOeYBOt7QBNLFA60nauxk6obxy3wWmec8sPBkjSoWK3d4OGHrhUWmCaE9RQFNO+1cEYASirToz6Iw8/A==}
     engines: {node: '>=16.18.1', npm: '>=8.x'}
     peerDependencies:
       '@babel/runtime': ^7.x
       '@solana/web3.js': ^1.x
     dependencies:
-      '@toruslabs/solana-embed': 1.0.0
+      '@toruslabs/solana-embed': 1.0.0_encoding@0.1.13
       '@web3auth/base': 6.1.7
       '@web3auth/base-provider': 6.1.7
       '@web3auth/base-solana-adapter': 6.1.7
@@ -2683,7 +2798,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/wallet-connect-v2-adapter/6.1.7:
+  /@web3auth/wallet-connect-v2-adapter/6.1.7_xhbfqwgypzewroet7ofbabm4ke:
     resolution: {integrity: sha512-5tv45Snp+MMwiWMNReWtQOX6xnwFnOO4EExRhm0qC45M03De5FU1mhsLiHroyUIFPNclFpkeIBSmqCWSjLHNOQ==}
     engines: {node: '>=16.18.1', npm: '>=8.x'}
     peerDependencies:
@@ -2692,6 +2807,7 @@ packages:
       '@walletconnect/types': ^2.x
       '@walletconnect/utils': ^2.x
     dependencies:
+      '@walletconnect/sign-client': 2.9.2
       '@web3auth/base': 6.1.7
       '@web3auth/base-evm-adapter': 6.1.7
       '@web3auth/ethereum-provider': 6.1.7
@@ -3326,6 +3442,12 @@ packages:
 
   /emoji-regex/9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: false
+
+  /encoding/0.1.13:
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    dependencies:
+      iconv-lite: 0.6.3
     dev: false
 
   /end-of-stream/1.4.4:
@@ -4209,6 +4331,13 @@ packages:
       '@babel/runtime': 7.22.6
     dev: false
 
+  /iconv-lite/0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      safer-buffer: 2.1.2
+    dev: false
+
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
@@ -4757,7 +4886,7 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /node-fetch/2.6.12:
+  /node-fetch/2.6.12_encoding@0.1.13:
     resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
@@ -4766,6 +4895,7 @@ packages:
       encoding:
         optional: true
     dependencies:
+      encoding: 0.1.13
       whatwg-url: 5.0.0
     dev: false
 
@@ -5347,6 +5477,10 @@ packages:
   /safe-stable-stringify/2.4.3:
     resolution: {integrity: sha512-e2bDA2WJT0wxseVd4lsDP4+3ONX6HpMXQa1ZhFQ7SU+GjvORCmShbCMltrtIDfkYhVHrOcPtj+KhmDBdPdZD1g==}
     engines: {node: '>=10'}
+    dev: false
+
+  /safer-buffer/2.1.2:
+    resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: false
 
   /scheduler/0.23.0:
