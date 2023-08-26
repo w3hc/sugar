@@ -53,7 +53,7 @@ function App() {
             loginGridCol: 3,
             primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
           },
-          web3AuthNetwork: "cyan",
+          web3AuthNetwork: "testnet",
         });
 
         const openloginAdapter = new OpenloginAdapter({
@@ -144,7 +144,7 @@ function App() {
         const metamaskAdapter = new MetamaskAdapter({
           clientId,
           sessionTime: 3600, // 1 hour in seconds
-          web3AuthNetwork: "cyan",
+          web3AuthNetwork: "testnet",
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
@@ -159,7 +159,7 @@ function App() {
             chainId: "0x1",
             rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
           },
-          web3AuthNetwork: "cyan",
+          web3AuthNetwork: "testnet",
         });
 
         // it will add/update  the metamask adapter in to web3auth class
