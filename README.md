@@ -35,6 +35,20 @@ pnpm dev
 pnpm build
 ```
 
+## Deploy
+
+To deploy using [Fleek](https://app.fleek.co/), you need to specify the docker image: 
+
+```
+wighawag/pnpm
+```
+
+This is the build command: 
+
+```
+pnpm i && pnpm build
+```
+
 ## Versions
 
 - Node [v18.16.0](https://nodejs.org/uk/blog/release/v20.3.0/)
