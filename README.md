@@ -1,4 +1,4 @@
-# Suger
+# Sugar
 
 A Web3 app boilerplate that's using: 
 
@@ -27,6 +27,12 @@ And add your own keys in the `.env` file.
 
 ```bash
 pnpm dev
+```
+
+## Build 
+
+```bash
+pnpm build
 ```
 
 ## Versions

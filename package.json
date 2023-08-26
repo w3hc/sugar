@@ -10,7 +10,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "export": "next export",
+    "lint": "next lint --fix",
+    "prettier": "prettier './src' --write"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
