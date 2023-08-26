@@ -22,10 +22,7 @@ import {
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
 
-
-
-const clientId =
-  "BHKwylJY_8Sj_PgIWDt9TZZntTW5rwYrMX_6DCHD1jV9j10Ugp-RM9BJSwv4LgrKsq1fcfumgaYamqpmr0R3hEY"; // get from https://dashboard.web3auth.io
+const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || ''; // get yours at https://dashboard.web3auth.io
 
 function App() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
