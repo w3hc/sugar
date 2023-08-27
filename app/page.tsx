@@ -31,7 +31,6 @@ function App() {
   const [userEthBal, setUserEthBal] = useState<Number | null>(88888);
   const [currentNetworkName, setCurrentNetworkName] = useState<String | null>("Fakenet");
   const [loading, setLoading] = useState<Boolean>(false);
-
   
   useEffect(() => {
     const init = async () => {
@@ -95,65 +94,65 @@ function App() {
 
         web3auth.configureAdapter(openloginAdapter);
 
-        const torusPlugin = new TorusWalletConnectorPlugin({
-          torusWalletOpts: {},
-          walletInitOptions: {
-            whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#000000" } },
-              logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
-              logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
-            },
-            useWalletConnect: true,
-            enableLogging: true,
-          },
-        });
-        setTorusPlugin(torusPlugin);
-        await web3auth.addPlugin(torusPlugin);
+        // const torusPlugin = new TorusWalletConnectorPlugin({
+        //   torusWalletOpts: {},
+        //   walletInitOptions: {
+        //     whiteLabel: {
+        //       theme: { isDark: true, colors: { primary: "#000000" } },
+        //       logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+        //       logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+        //     },
+        //     useWalletConnect: true,
+        //     enableLogging: true,
+        //   },
+        // });
+        // setTorusPlugin(torusPlugin);
+        // await web3auth.addPlugin(torusPlugin);
 
-        // adding wallet connect v2 adapter
-        const defaultWcSettings = await getWalletConnectV2Settings(
-          "eip155",
-          [1, 137, 5],
-          "04309ed1007e77d1f119b85205bb779d"
-        );
-        const walletConnectV2Adapter = new WalletConnectV2Adapter({
-          adapterSettings: { ...defaultWcSettings.adapterSettings },
-          loginSettings: { ...defaultWcSettings.loginSettings },
-        });
+        // // adding wallet connect v2 adapter
+        // const defaultWcSettings = await getWalletConnectV2Settings(
+        //   "eip155",
+        //   [1, 137, 5],
+        //   "04309ed1007e77d1f119b85205bb779d"
+        // );
+        // const walletConnectV2Adapter = new WalletConnectV2Adapter({
+        //   adapterSettings: { ...defaultWcSettings.adapterSettings },
+        //   loginSettings: { ...defaultWcSettings.loginSettings },
+        // });
 
-        web3auth.configureAdapter(walletConnectV2Adapter);
+        // web3auth.configureAdapter(walletConnectV2Adapter);
 
-        // adding metamask adapter
-        const metamaskAdapter = new MetamaskAdapter({
-          clientId,
-          sessionTime: 3600, // 1 hour in seconds
-          web3AuthNetwork: "testnet",
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x1",
-            rpcTarget: mainnetRpcEndpoint,
-          },
-        });
-        // we can change the above settings using this function
-        metamaskAdapter.setAdapterSettings({
-          sessionTime: 86400, // 1 day in seconds
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x1",
-            rpcTarget: mainnetRpcEndpoint,
-          },
-          web3AuthNetwork: "testnet",
-        });
+        // // adding metamask adapter
+        // const metamaskAdapter = new MetamaskAdapter({
+        //   clientId,
+        //   sessionTime: 3600, // 1 hour in seconds
+        //   web3AuthNetwork: "testnet",
+        //   chainConfig: {
+        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+        //     chainId: "0x1",
+        //     rpcTarget: mainnetRpcEndpoint,
+        //   },
+        // });
+        // // we can change the above settings using this function
+        // metamaskAdapter.setAdapterSettings({
+        //   sessionTime: 86400, // 1 day in seconds
+        //   chainConfig: {
+        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+        //     chainId: "0x1",
+        //     rpcTarget: mainnetRpcEndpoint,
+        //   },
+        //   web3AuthNetwork: "testnet",
+        // });
 
-        // it will add/update  the metamask adapter in to web3auth class
-        web3auth.configureAdapter(metamaskAdapter);
+        // // it will add/update  the metamask adapter in to web3auth class
+        // web3auth.configureAdapter(metamaskAdapter);
 
-        const torusWalletAdapter = new TorusWalletAdapter({
-          clientId,
-        });
+        // const torusWalletAdapter = new TorusWalletAdapter({
+        //   clientId,
+        // });
 
-        // it will add/update  the torus-evm adapter in to web3auth class
-        web3auth.configureAdapter(torusWalletAdapter);
+        // // it will add/update  the torus-evm adapter in to web3auth class
+        // web3auth.configureAdapter(torusWalletAdapter);
 
         setWeb3auth(web3auth);
 

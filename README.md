@@ -7,6 +7,8 @@ A Web3 app boilerplate that's using:
 - [Ethers](https://docs.ethers.org/)
 - [Web3Auth](https://web3auth.io/)
 
+Live demo: [https://sugar.on.fleek.co](https://sugar.on.fleek.co)
+
 ## Install
 
 ```
@@ -46,9 +48,9 @@ npm install n -g && n stable && npm install -g pnpm && pnpm i && pnpm run build
 ## Versions
 
 - Node [v18.17.1](https://nodejs.org/uk/blog/release/v18.17.1/)
-- Ethers [v6.7.0]()
-- Web3Auth [6.1.4]()
-- Next.js [13.4.12]()
+- Ethers [v6.7.0](https://docs.ethers.org/v6/)
+- Web3Auth [6.1.4](https://web3auth.io/docs/core-kit/going-live#3-update-your-web3auth-sdks-to-the-latest-version)
+- Next.js [13.4.12](https://nextjs.org/docs/)
 
 ## Support
 
