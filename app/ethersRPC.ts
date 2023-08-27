@@ -22,6 +22,20 @@ export default class EthereumRpc {
     }
   }
 
+  async getChainName(): Promise<any> {
+    try {
+      // For ethers v5
+      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const ethersProvider = new ethers.BrowserProvider(this.provider);
+      // Get the connected Chain's ID
+      const networkDetails = await ethersProvider.getNetwork();
+      console.log('String(networkDetails.name)', String(networkDetails.name))
+      return String(networkDetails.name);
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getAccounts(): Promise<any> {
     try {
       // For ethers v5
