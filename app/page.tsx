@@ -402,7 +402,7 @@ function App() {
     <>
       <div className="flex-container">
         <div>
-        <Text fontSize='16px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
+        <Text fontSize='24px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
           <br />
         </div>
         <div>
@@ -464,14 +464,13 @@ function App() {
         <br />
       </div>
         
-        <div id="console" style={{ whiteSpace: "pre-line" }}>
-        <p style={{ whiteSpace: "pre-line" }}></p>
+      <div id="console" style={{ whiteSpace: "pre-line" }}>
+
+        <Text style={{ whiteSpace: "pre-line" }} fontSize='24px' color='white'></Text>
      
       </div>
       {loading && 
-        
-        <Image alt="loader" src={loader}/>  }
-      { }
+      <Image alt="loader" src={loader}/>}
     </>
   );
 
@@ -503,10 +502,10 @@ function App() {
    
     <Container maxW='5xl' bg='black' centerContent>
 
-<Box padding='4' bg='black' color='black' maxW='md'>
-{loggedIn ? loggedInView : unloggedInView}
-</Box>
-</Container></>
+    <Box padding='4' bg='black' color='black' maxW='md'>
+    {loggedIn ? loggedInView : unloggedInView}
+    </Box>
+    </Container></>
   );
 }
 
