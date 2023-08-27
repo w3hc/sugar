@@ -58,8 +58,8 @@ function App() {
               name: "Sugar",
               logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
               logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
-              defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
-              dark: false, // whether to enable dark mode. defaultValue: false
+              defaultLanguage: "en",
+              dark: true, 
             },
             mfaSettings: {
               deviceShareFactor: {
@@ -87,11 +87,6 @@ function App() {
         });
         web3auth.configureAdapter(openloginAdapter);
 
-        // plugins and adapters are optional and can be added as per your requirement
-        // read more about plugins here: https://web3auth.io/docs/sdk/web/plugins/
-
-        // adding torus wallet connector plugin
-
         const torusPlugin = new TorusWalletConnectorPlugin({
           torusWalletOpts: {},
           walletInitOptions: {
@@ -106,18 +101,6 @@ function App() {
         });
         setTorusPlugin(torusPlugin);
         await web3auth.addPlugin(torusPlugin);
-
-        // read more about adapters here: https://web3auth.io/docs/sdk/web/adapters/
-
-        // adding wallet connect v1 adapter
-        // const walletConnectV1Adapter = new WalletConnectV1Adapter({
-        //   adapterSettings: {
-        //     bridge: "https://bridge.walletconnect.org",
-        //   },
-        //   clientId,
-        // });
-
-        // web3auth.configureAdapter(walletConnectV1Adapter);
 
         // adding wallet connect v2 adapter
         const defaultWcSettings = await getWalletConnectV2Settings(
@@ -168,33 +151,6 @@ function App() {
 
         await web3auth.initModal();
 
-        // await web3auth.initModal({
-        //   modalConfig: {
-        //     [WALLET_ADAPTERS.OPENLOGIN]: {
-        //       label: "openlogin",
-        //       loginMethods: {
-        //         // Disable facebook and reddit
-        //         facebook: {
-        //           name: "facebook",
-        //           showOnModal: false
-        //         },
-        //         reddit: {
-        //           name: "reddit",
-        //           showOnModal: false
-        //         },
-        //         // Disable email_passwordless and sms_passwordless
-        //         email_passwordless: {
-        //           name: "email_passwordless",
-        //           showOnModal: false
-        //         },
-        //         sms_passwordless: {
-        //           name: "sms_passwordless",
-        //           showOnModal: false
-        //         }
-        //       }
-        //     }
-        //   }
-        // });
         setProvider(web3auth.provider);
 
         if (web3auth.connected) {
@@ -359,16 +315,6 @@ function App() {
     uiConsole(privateKey);
   };
 
-  // const changeNetwork = async () => {
-  //   if (!provider) {
-  //     uiConsole("provider not initialized yet");
-  //     return;
-  //   }
-  //   const rpc = new RPC(provider);
-  //   const privateKey = await rpc.getPrivateKey();
-  //   uiConsole(privateKey);
-  // };
-
   function uiConsole(...args: any[]): void {
     const el = document.querySelector("#console>p");
     if (el) {
@@ -389,16 +335,6 @@ function App() {
             Get ID Token
           </button>
         </div>
-        {/* <div>
-          <button onClick={showWCM} className="card">
-            Show Wallet Connect Modal
-          </button>
-        </div> */}
-        {/* <div>
-          <button onClick={initiateTopUp} className="card">
-            initiateTopUp
-          </button>
-        </div> */}
         <div>
           <button onClick={getChainId} className="card">
             Get Chain ID
@@ -439,11 +375,6 @@ function App() {
             Get Private Key
           </button>
         </div>
-        {/* <div>
-          <button onClick={logout} className="card">
-            Log Out
-          </button>
-        </div> */}
         <br /><br /><br />
       </div>
       <div id="console" style={{ whiteSpace: "pre-line" }}>
@@ -479,15 +410,6 @@ function App() {
 
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
 
-      {/* <footer className="footer">
-        <a
-          href="https://github.com/w3hc/sugar"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Source code
-        </a>
-      </footer> */}
     </div></>
   );
 }
