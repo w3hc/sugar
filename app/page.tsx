@@ -233,10 +233,31 @@ function App() {
     const rpc = new RPC(provider);
     const chainId = await rpc.getChainId();
     console.log('chainId:', chainId)
-    uiConsole(Number(chainId));
+    uiConsole(chainId);
   };
 
-  const addChain = async () => {
+  // const addChain = async () => {
+  //   if (!provider) {
+  //     uiConsole("provider not initialized yet");
+  //     return;
+  //   }
+  //   const newChain = {
+  //     chainId: "0x5",
+  //     displayName: "Goerli",
+  //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+  //     tickerName: "Goerli",
+  //     ticker: "ETH",
+  //     decimals: 18,
+  //     rpcTarget: "https://rpc.ankr.com/eth_goerli",
+  //     blockExplorer: "https://goerli.etherscan.io",
+  //   };
+  //   await web3auth?.addChain(newChain);
+  //   uiConsole("New Chain Added");
+  // };
+
+  // console.log('web3auth:', web3auth)
+
+  const switchChain = async () => {
     if (!provider) {
       uiConsole("provider not initialized yet");
       return;
@@ -253,13 +274,6 @@ function App() {
     };
     await web3auth?.addChain(newChain);
     uiConsole("New Chain Added");
-  };
-
-  const switchChain = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
     await web3auth?.switchChain({ chainId: "0x5" });
     uiConsole("Chain Switched");
   };
@@ -340,11 +354,11 @@ function App() {
             Get Chain ID
           </Button>
         </div>
-        <div>
+        {/* <div>
           <Button mt = {3} onClick={addChain} colorScheme="blue" variant="outline" size='xs'>
             Add Chain
           </Button>
-        </div>
+        </div> */}
         <div>
           <Button mt = {3} onClick={switchChain} colorScheme="blue" variant="outline" size='xs'>
             Switch Chain
