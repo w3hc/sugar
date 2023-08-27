@@ -454,7 +454,7 @@ function App() {
 
   const unloggedInView = (
     <button onClick={login} className="card">
-      
+      <p>Hello, please login.</p>
     </button>
   );
 
@@ -474,13 +474,7 @@ function App() {
           </Button>}
       </Flex>
     </Flex>
-    <main>
-
-
-      <p>Hello</p>
-
-
-    </main>
+   
     <div className="container">
 
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
