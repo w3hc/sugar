@@ -180,7 +180,6 @@ function App() {
     }
     const rpc = new RPC(provider);
     const balance = await rpc.getBalance();
-    console.log('balance:', balance)
     uiConsole(balance);
     setUserEthBal(Number(balance))
     return balance
@@ -258,7 +257,6 @@ function App() {
       return;
     }
     torusPlugin.showWalletConnectScanner();
-    uiConsole();
   };
 
   const initiateTopUp = async () => {
@@ -293,7 +291,6 @@ function App() {
     }
     const rpc = new RPC(provider);
     const chainName = await rpc.getChainName();
-    console.log('chainName:', chainName)
     setCurrentNetworkName(chainName)
     uiConsole(chainName);
   };
@@ -339,7 +336,6 @@ function App() {
     await web3auth?.addChain(newChain);
     await web3auth?.switchChain({ chainId: "0x5" });
     const bal = await getBalance()
-    console.log('bal:', bal)
     setUserEthBal(Number(bal));
     await getChainName()
     uiConsole("Switched to Goerli");
@@ -401,15 +397,11 @@ function App() {
   const loggedInView = (
     <>
       <div className="flex-container">
-        <div>
-        <Text fontSize='24px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
+        <Text fontSize='18px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
           <br />
-        </div>
-        <div>
           <Button mt = {3} onClick={getUserInfo} colorScheme="blue" variant="outline" size='xs'>
             Get User Info
           </Button>
-        </div>
         {/* <div>
           <Button mt = {3} onClick={authenticateUser} colorScheme="blue" variant="outline" size='xs'>
             Get ID Token
@@ -466,7 +458,7 @@ function App() {
         
       <div id="console" style={{ whiteSpace: "pre-line" }}>
 
-        <Text style={{ whiteSpace: "pre-line" }} fontSize='24px' color='white'></Text>
+        <Text style={{ whiteSpace: "pre-line" }} fontSize='18px' color='white'></Text>
      
       </div>
       {loading && 
@@ -476,35 +468,29 @@ function App() {
 
   const unloggedInView = (
     <button onClick={login} className="card">
-      <p>Hello, please login.</p>
+      <Text fontSize='18px' color='white'>Hello, please login.</Text>
     </button>
   );
 
   return (
     <>
-       
-    
     <Flex as="header" bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')} px={4} py={5} mb={8} alignItems="center">
-      
-
       <Spacer />
-
       <Flex alignItems="center" gap={4}>
         {loggedIn ? 
-          <Button colorScheme="purple" variant="outline" onClick={logout} size='sm'>
+          <Button colorScheme="purple" variant="ghost" onClick={logout} size='sm'>
             Logout
           </Button> :
-          <Button colorScheme="purple" variant="outline" onClick={login} size='sm'>
+          <Button colorScheme="purple" variant="ghost" onClick={login} size='sm'>
             Login
           </Button>}
       </Flex>
     </Flex>
    
     <Container maxW='5xl' bg='black' centerContent>
-
-    <Box padding='4' bg='black' color='black' maxW='md'>
-    {loggedIn ? loggedInView : unloggedInView}
-    </Box>
+      <Box padding='4' bg='black' color='black' w='80%'>
+      {loggedIn ? loggedInView : unloggedInView}
+      </Box> 
     </Container></>
   );
 }
