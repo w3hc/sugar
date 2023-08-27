@@ -326,54 +326,54 @@ function App() {
     <>
       <div className="flex-container">
         <div>
-          <button onClick={getUserInfo} className="card">
+          <Button mt = {3} onClick={getUserInfo} colorScheme="blue" variant="outline" size='xs'>
             Get User Info
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={authenticateUser} className="card">
+          <Button mt = {3} onClick={authenticateUser} colorScheme="blue" variant="outline" size='xs'>
             Get ID Token
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={getChainId} className="card">
+          <Button mt = {3} onClick={getChainId} colorScheme="blue" variant="outline" size='xs'>
             Get Chain ID
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={addChain} className="card">
+          <Button mt = {3} onClick={addChain} colorScheme="blue" variant="outline" size='xs'>
             Add Chain
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={switchChain} className="card">
+          <Button mt = {3} onClick={switchChain} colorScheme="blue" variant="outline" size='xs'>
             Switch Chain
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={getAccounts} className="card">
+          <Button mt = {3} onClick={getAccounts} colorScheme="blue" variant="outline" size='xs'>
             Get Accounts
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={getBalance} className="card">
+          <Button mt = {3} onClick={getBalance} colorScheme="blue" variant="outline" size='xs'>
             Get Balance
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={signMessage} className="card">
+          <Button mt = {3} onClick={signMessage} colorScheme="blue" variant="outline" size='xs'>
             Sign Message
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={sendTransaction} className="card">
+          <Button mt = {3} onClick={sendTransaction} colorScheme="blue" variant="outline" size='xs'>
             Send Transaction
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={getPrivateKey} className="card">
+          <Button mt = {3} onClick={getPrivateKey} colorScheme="blue" variant="outline" size='xs'>
             Get Private Key
-          </button>
+          </Button>
         </div>
         <br /><br /><br />
       </div>
