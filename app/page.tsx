@@ -6,15 +6,8 @@ import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import "./globals.css";
-// import RPC from "./web3RPC"; // for using web3.js
 import RPC from "./ethersRPC"; // for using ethers.js
-
-// Plugins
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
-
-// Adapters
-
-// import { WalletConnectV1Adapter } from "@web3auth/wallet-connect-v1-adapter";
 import {
   WalletConnectV2Adapter,
   getWalletConnectV2Settings,
@@ -23,30 +16,28 @@ import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
 
 const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || ''; // get yours at https://dashboard.web3auth.io
+const mainnetRpcEndpoint = process.env.NEXT_PUBLIC_ETHEREUM_RPC_ENPOINT_URL || '';
+const goerliRpcEndpoint = process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL || '';
 
 function App() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
-  const [torusPlugin, setTorusPlugin] =
-    useState<TorusWalletConnectorPlugin | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  const [torusPlugin, setTorusPlugin] = useState<TorusWalletConnectorPlugin | null>(null);
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const init = async () => {
       try {
-        console.log('process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL', process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL)
         const web3auth = new Web3Auth({
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL,
+            rpcTarget: goerliRpcEndpoint,
           },
           uiConfig: {
             appName: "Sugar",
-            appLogo: "https://web3auth.io/images/w3a-L-Favicon-1.svg", // Your App Logo Here
+            appLogo: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png", // Your App Logo Here
             theme: "dark",
             loginMethodsOrder: ["apple", "google", "twitter"],
             defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
@@ -64,8 +55,8 @@ function App() {
             uxMode: "popup", // "redirect" | "popup"
             whiteLabel: {
               name: "Sugar",
-              logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+              logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+              logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
               defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
               dark: false, // whether to enable dark mode. defaultValue: false
             },
@@ -104,9 +95,9 @@ function App() {
           torusWalletOpts: {},
           walletInitOptions: {
             whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#00a8ff" } },
-              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+              theme: { isDark: true, colors: { primary: "#000000" } },
+              logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+              logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
             },
             useWalletConnect: true,
             enableLogging: true,
@@ -284,7 +275,8 @@ function App() {
     }
     const rpc = new RPC(provider);
     const chainId = await rpc.getChainId();
-    uiConsole(chainId);
+    console.log('chainId:', chainId)
+    uiConsole(Number(chainId));
   };
 
   const addChain = async () => {
@@ -332,6 +324,7 @@ function App() {
     }
     const rpc = new RPC(provider);
     const balance = await rpc.getBalance();
+    console.log('balance:', balance)
     uiConsole(balance);
   };
 
@@ -395,16 +388,16 @@ function App() {
             Get ID Token
           </button>
         </div>
-        <div>
+        {/* <div>
           <button onClick={showWCM} className="card">
             Show Wallet Connect Modal
           </button>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <button onClick={initiateTopUp} className="card">
             initiateTopUp
           </button>
-        </div>
+        </div> */}
         <div>
           <button onClick={getChainId} className="card">
             Get Chain ID
