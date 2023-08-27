@@ -6,47 +6,46 @@ import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import "./globals.css";
-// import RPC from "./web3RPC"; // for using web3.js
 import RPC from "./ethersRPC"; // for using ethers.js
-
-// Plugins
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
-
-// Adapters
-
-// import { WalletConnectV1Adapter } from "@web3auth/wallet-connect-v1-adapter";
 import {
   WalletConnectV2Adapter,
   getWalletConnectV2Settings,
 } from "@web3auth/wallet-connect-v2-adapter";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
+import { Flex, useColorModeValue, Spacer, Heading, Button, Container, Box, Text } from '@chakra-ui/react'
+// import { ethers } from "ethers";
+import loader from "./reggae-loader.svg";
 
 const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || ''; // get yours at https://dashboard.web3auth.io
+const mainnetRpcEndpoint = process.env.NEXT_PUBLIC_ETHEREUM_RPC_ENPOINT_URL || '';
+const goerliRpcEndpoint = process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL || '';
 
 function App() {
+  
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
-  const [torusPlugin, setTorusPlugin] =
-    useState<TorusWalletConnectorPlugin | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  const [torusPlugin, setTorusPlugin] = useState<TorusWalletConnectorPlugin | null>(null);
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userEthBal, setUserEthBal] = useState<Number | null>(88888);
+  const [currentNetworkName, setCurrentNetworkName] = useState<String | null>("Fakenet");
+  const [loading, setLoading] = useState<Boolean>(false);
 
+  
   useEffect(() => {
     const init = async () => {
       try {
-        console.log('process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL', process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL)
         const web3auth = new Web3Auth({
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL,
+            rpcTarget: mainnetRpcEndpoint,
           },
           uiConfig: {
             appName: "Sugar",
-            appLogo: "https://web3auth.io/images/w3a-L-Favicon-1.svg", // Your App Logo Here
+            appLogo: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png", // Your App Logo Here
             theme: "dark",
             loginMethodsOrder: ["apple", "google", "twitter"],
             defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
@@ -64,10 +63,10 @@ function App() {
             uxMode: "popup", // "redirect" | "popup"
             whiteLabel: {
               name: "Sugar",
-              logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-              defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
-              dark: false, // whether to enable dark mode. defaultValue: false
+              logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+              logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+              defaultLanguage: "en",
+              dark: true, 
             },
             mfaSettings: {
               deviceShareFactor: {
@@ -93,77 +92,61 @@ function App() {
             },
           },
         });
+
         web3auth.configureAdapter(openloginAdapter);
 
-        // plugins and adapters are optional and can be added as per your requirement
-        // read more about plugins here: https://web3auth.io/docs/sdk/web/plugins/
-
-        // adding torus wallet connector plugin
-
-        const torusPlugin = new TorusWalletConnectorPlugin({
-          torusWalletOpts: {},
-          walletInitOptions: {
-            whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#00a8ff" } },
-              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-            },
-            useWalletConnect: true,
-            enableLogging: true,
-          },
-        });
-        setTorusPlugin(torusPlugin);
-        await web3auth.addPlugin(torusPlugin);
-
-        // read more about adapters here: https://web3auth.io/docs/sdk/web/adapters/
-
-        // adding wallet connect v1 adapter
-        // const walletConnectV1Adapter = new WalletConnectV1Adapter({
-        //   adapterSettings: {
-        //     bridge: "https://bridge.walletconnect.org",
+        // const torusPlugin = new TorusWalletConnectorPlugin({
+        //   torusWalletOpts: {},
+        //   walletInitOptions: {
+        //     whiteLabel: {
+        //       theme: { isDark: true, colors: { primary: "#000000" } },
+        //       logoDark: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+        //       logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
+        //     },
+        //     useWalletConnect: true,
+        //     enableLogging: true,
         //   },
-        //   clientId,
+        // });
+        // setTorusPlugin(torusPlugin);
+        // await web3auth.addPlugin(torusPlugin);
+
+        // // adding wallet connect v2 adapter
+        // const defaultWcSettings = await getWalletConnectV2Settings(
+        //   "eip155",
+        //   [1, 137, 5],
+        //   "04309ed1007e77d1f119b85205bb779d"
+        // );
+        // const walletConnectV2Adapter = new WalletConnectV2Adapter({
+        //   adapterSettings: { ...defaultWcSettings.adapterSettings },
+        //   loginSettings: { ...defaultWcSettings.loginSettings },
         // });
 
-        // web3auth.configureAdapter(walletConnectV1Adapter);
+        // web3auth.configureAdapter(walletConnectV2Adapter);
 
-        // adding wallet connect v2 adapter
-        const defaultWcSettings = await getWalletConnectV2Settings(
-          "eip155",
-          [1, 137, 5],
-          "04309ed1007e77d1f119b85205bb779d"
-        );
-        const walletConnectV2Adapter = new WalletConnectV2Adapter({
-          adapterSettings: { ...defaultWcSettings.adapterSettings },
-          loginSettings: { ...defaultWcSettings.loginSettings },
-        });
-
-        web3auth.configureAdapter(walletConnectV2Adapter);
-
-        // adding metamask adapter
-        const metamaskAdapter = new MetamaskAdapter({
-          clientId,
-          sessionTime: 3600, // 1 hour in seconds
-          web3AuthNetwork: "testnet",
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
-          },
-        });
-        // we can change the above settings using this function
-        metamaskAdapter.setAdapterSettings({
-          sessionTime: 86400, // 1 day in seconds
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
-          },
-          web3AuthNetwork: "testnet",
-        });
+        // // adding metamask adapter
+        // const metamaskAdapter = new MetamaskAdapter({
+        //   clientId,
+        //   sessionTime: 3600, // 1 hour in seconds
+        //   web3AuthNetwork: "testnet",
+        //   chainConfig: {
+        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+        //     chainId: "0x1",
+        //     rpcTarget: mainnetRpcEndpoint,
+        //   },
+        // });
+        // // we can change the above settings using this function
+        // metamaskAdapter.setAdapterSettings({
+        //   sessionTime: 86400, // 1 day in seconds
+        //   chainConfig: {
+        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+        //     chainId: "0x1",
+        //     rpcTarget: mainnetRpcEndpoint,
+        //   },
+        //   web3AuthNetwork: "testnet",
+        // });
 
         // it will add/update  the metamask adapter in to web3auth class
-        web3auth.configureAdapter(metamaskAdapter);
+        // web3auth.configureAdapter(metamaskAdapter);
 
         const torusWalletAdapter = new TorusWalletAdapter({
           clientId,
@@ -176,35 +159,8 @@ function App() {
 
         await web3auth.initModal();
 
-        // await web3auth.initModal({
-        //   modalConfig: {
-        //     [WALLET_ADAPTERS.OPENLOGIN]: {
-        //       label: "openlogin",
-        //       loginMethods: {
-        //         // Disable facebook and reddit
-        //         facebook: {
-        //           name: "facebook",
-        //           showOnModal: false
-        //         },
-        //         reddit: {
-        //           name: "reddit",
-        //           showOnModal: false
-        //         },
-        //         // Disable email_passwordless and sms_passwordless
-        //         email_passwordless: {
-        //           name: "email_passwordless",
-        //           showOnModal: false
-        //         },
-        //         sms_passwordless: {
-        //           name: "sms_passwordless",
-        //           showOnModal: false
-        //         }
-        //       }
-        //     }
-        //   }
-        // });
         setProvider(web3auth.provider);
-
+        
         if (web3auth.connected) {
           setLoggedIn(true);
         }
@@ -212,9 +168,50 @@ function App() {
         console.error(error);
       }
     };
-
+   
     init();
+    
   }, []);
+
+  const getBalance = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    const balance = await rpc.getBalance();
+    uiConsole(balance);
+    setUserEthBal(Number(balance))
+    return balance
+  };
+
+  const update = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const bal = await getBalance()
+    // setUserEthBal(Number(bal));
+    await getChainName()
+    await switchChain()
+    uiConsole("Up to date");
+  }
+
+  useEffect(() => {
+    // const yo = async () => {
+      try {
+        if (!provider) {
+          uiConsole("provider not initialized yet");
+          return;
+        }
+        update()
+      } catch(e) {
+        
+      }
+    // }
+    
+    // yo()
+  }, [provider]);
 
   const login = async () => {
     if (!web3auth) {
@@ -241,7 +238,7 @@ function App() {
       return;
     }
     const user = await web3auth.getUserInfo();
-    uiConsole(user);
+    uiConsole(user.email);
   };
 
   const logout = async () => {
@@ -260,7 +257,6 @@ function App() {
       return;
     }
     torusPlugin.showWalletConnectScanner();
-    uiConsole();
   };
 
   const initiateTopUp = async () => {
@@ -284,10 +280,45 @@ function App() {
     }
     const rpc = new RPC(provider);
     const chainId = await rpc.getChainId();
+    console.log('chainId:', chainId)
     uiConsole(chainId);
   };
 
-  const addChain = async () => {
+  const getChainName = async () => {
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    const chainName = await rpc.getChainName();
+    setCurrentNetworkName(chainName)
+    uiConsole(chainName);
+  };
+
+  
+
+  // const addChain = async () => {
+  //   if (!provider) {
+  //     uiConsole("provider not initialized yet");
+  //     return;
+  //   }
+  //   const newChain = {
+  //     chainId: "0x5",
+  //     displayName: "Goerli",
+  //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+  //     tickerName: "Goerli",
+  //     ticker: "ETH",
+  //     decimals: 18,
+  //     rpcTarget: "https://rpc.ankr.com/eth_goerli",
+  //     blockExplorer: "https://goerli.etherscan.io",
+  //   };
+  //   await web3auth?.addChain(newChain);
+  //   uiConsole("New Chain Added");
+  // };
+
+  // console.log('web3auth:', web3auth)
+
+  const switchChain = async () => {
     if (!provider) {
       uiConsole("provider not initialized yet");
       return;
@@ -303,16 +334,11 @@ function App() {
       blockExplorer: "https://goerli.etherscan.io",
     };
     await web3auth?.addChain(newChain);
-    uiConsole("New Chain Added");
-  };
-
-  const switchChain = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
     await web3auth?.switchChain({ chainId: "0x5" });
-    uiConsole("Chain Switched");
+    const bal = await getBalance()
+    setUserEthBal(Number(bal));
+    await getChainName()
+    uiConsole("Switched to Goerli");
   };
 
   const getAccounts = async () => {
@@ -325,24 +351,20 @@ function App() {
     uiConsole(address);
   };
 
-  const getBalance = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const balance = await rpc.getBalance();
-    uiConsole(balance);
-  };
+  
 
   const sendTransaction = async () => {
+    setLoading(true)
     if (!provider) {
       uiConsole("provider not initialized yet");
       return;
     }
     const rpc = new RPC(provider);
+    uiConsole("Sending ETH...");
     const receipt = await rpc.sendTransaction();
-    uiConsole(receipt);
+    await getBalance()
+    uiConsole('tx hash: '+ receipt.hash);
+    setLoading(false)
   };
 
   const signMessage = async () => {
@@ -365,16 +387,6 @@ function App() {
     uiConsole(privateKey);
   };
 
-  // const changeNetwork = async () => {
-  //   if (!provider) {
-  //     uiConsole("provider not initialized yet");
-  //     return;
-  //   }
-  //   const rpc = new RPC(provider);
-  //   const privateKey = await rpc.getPrivateKey();
-  //   uiConsole(privateKey);
-  // };
-
   function uiConsole(...args: any[]): void {
     const el = document.querySelector("#console>p");
     if (el) {
@@ -385,105 +397,101 @@ function App() {
   const loggedInView = (
     <>
       <div className="flex-container">
-        <div>
-          <button onClick={getUserInfo} className="card">
+        <Text fontSize='18px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
+          <br />
+          <Button mt = {3} onClick={getUserInfo} colorScheme="blue" variant="outline" size='xs'>
             Get User Info
-          </button>
-        </div>
-        <div>
-          <button onClick={authenticateUser} className="card">
+          </Button>
+        {/* <div>
+          <Button mt = {3} onClick={authenticateUser} colorScheme="blue" variant="outline" size='xs'>
             Get ID Token
-          </button>
-        </div>
-        <div>
-          <button onClick={showWCM} className="card">
-            Show Wallet Connect Modal
-          </button>
-        </div>
-        <div>
-          <button onClick={initiateTopUp} className="card">
-            initiateTopUp
-          </button>
-        </div>
-        <div>
-          <button onClick={getChainId} className="card">
+          </Button>
+        </div> */}
+        {/* <div>
+          <Button mt = {3} onClick={getChainId} colorScheme="blue" variant="outline" size='xs'>
             Get Chain ID
-          </button>
-        </div>
+          </Button>
+        </div> */}
         <div>
-          <button onClick={addChain} className="card">
+          <Button mt = {3} onClick={getChainName} colorScheme="blue" variant="outline" size='xs'>
+            Get Chain name
+          </Button>
+        </div>
+        
+        {/* <div>
+          <Button mt = {3} onClick={addChain} colorScheme="blue" variant="outline" size='xs'>
             Add Chain
-          </button>
+          </Button>
+        </div> */}
+        <div>
+          <Button mt = {3} onClick={switchChain} colorScheme="blue" variant="outline" size='xs'>
+            Switch to Goerli
+          </Button>
         </div>
         <div>
-          <button onClick={switchChain} className="card">
-            Switch Chain
-          </button>
-        </div>
-        <div>
-          <button onClick={getAccounts} className="card">
+          <Button mt = {3} onClick={getAccounts} colorScheme="blue" variant="outline" size='xs'>
             Get Accounts
-          </button>
+          </Button>
         </div>
         <div>
-          <button onClick={getBalance} className="card">
+          <Button mt = {3} onClick={getBalance} colorScheme="blue" variant="outline" size='xs'>
             Get Balance
-          </button>
+          </Button>
         </div>
-        <div>
-          <button onClick={signMessage} className="card">
+        {/* <div>
+          <Button mt = {3} onClick={signMessage} colorScheme="blue" variant="outline" size='xs'>
             Sign Message
-          </button>
-        </div>
+          </Button>
+        </div> */}
         <div>
-          <button onClick={sendTransaction} className="card">
+          <Button mt = {3} onClick={sendTransaction} colorScheme="blue" variant="outline" size='xs'>
             Send Transaction
-          </button>
+          </Button>
         </div>
-        <div>
-          <button onClick={getPrivateKey} className="card">
+        {/* <div>
+          <Button mt = {3} onClick={getPrivateKey} colorScheme="blue" variant="outline" size='xs'>
             Get Private Key
-          </button>
-        </div>
-        <div>
-          <button onClick={logout} className="card">
-            Log Out
-          </button>
-        </div>
+          </Button>
+        </div> */}
+        <br />
       </div>
+        
       <div id="console" style={{ whiteSpace: "pre-line" }}>
-        <p style={{ whiteSpace: "pre-line" }}></p>
+
+        <Text style={{ whiteSpace: "pre-line" }} fontSize='18px' color='white'></Text>
+     
       </div>
+      {loading && 
+      <Image alt="loader" src={loader}/>}
     </>
   );
 
   const unloggedInView = (
     <button onClick={login} className="card">
-      Login
+      <Text fontSize='18px' color='white'>Hello, please login.</Text>
     </button>
   );
 
   return (
-    <div className="container">
-      <h1 className="title">
-        <a target="_blank" href="https://github.com/w3hc/sugar" rel="noreferrer">
-          Hello world!{" "}
-        </a>
-        
-      </h1>
-
-      <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
-
-      <footer className="footer">
-        <a
-          href="https://github.com/w3hc/sugar"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Source code
-        </a>
-      </footer>
-    </div>
+    <>
+    <Flex as="header" bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')} px={4} py={5} mb={8} alignItems="center">
+      <Spacer />
+      <Flex alignItems="center" gap={4}>
+        {loggedIn ? 
+          <Button colorScheme="purple" variant="ghost" onClick={logout} size='sm'>
+            Logout
+          </Button> :
+          <Button colorScheme="purple" variant="ghost" onClick={login} size='sm'>
+            Login
+          </Button>}
+      </Flex>
+    </Flex>
+   
+    <Container maxW='5xl' bg='black' centerContent>
+      <Box padding='4' bg='black' color='black' w='80%'>
+      {loggedIn ? loggedInView : unloggedInView}
+      </Box> 
+    </Container></>
   );
 }
 

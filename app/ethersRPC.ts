@@ -11,12 +11,19 @@ export default class EthereumRpc {
 
   async getChainId(): Promise<any> {
     try {
-      // For ethers v5
-      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const ethersProvider = new ethers.BrowserProvider(this.provider);
-      // Get the connected Chain's ID
       const networkDetails = await ethersProvider.getNetwork();
-      return networkDetails.chainId;
+      return Number(networkDetails.chainId);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getChainName(): Promise<any> {
+    try {
+      const ethersProvider = new ethers.BrowserProvider(this.provider);
+      const networkDetails = await ethersProvider.getNetwork();
+      return String(networkDetails.name);
     } catch (error) {
       return error;
     }
@@ -24,17 +31,9 @@ export default class EthereumRpc {
 
   async getAccounts(): Promise<any> {
     try {
-      // For ethers v5
-      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const ethersProvider = new ethers.BrowserProvider(this.provider);
-
-      // For ethers v5
-      // const signer = ethersProvider.getSigner();
       const signer = await ethersProvider.getSigner();
-
-      // Get user's Ethereum public address
       const address = signer.getAddress();
-
       return await address;
     } catch (error) {
       return error;
@@ -43,26 +42,12 @@ export default class EthereumRpc {
 
   async getBalance(): Promise<string> {
     try {
-      // For ethers v5
-      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const ethersProvider = new ethers.BrowserProvider(this.provider);
-
-      // For ethers v5
-      // const signer = ethersProvider.getSigner();
       const signer = await ethersProvider.getSigner();
-
-      // Get user's Ethereum public address
       const address = signer.getAddress();
-
-      // Get user's balance in ether
-      // For ethers v5
-      // const balance = ethers.utils.formatEther(
-      // await ethersProvider.getBalance(address) // Balance is in wei
-      // );
       const balance = ethers.formatEther(
         await ethersProvider.getBalance(address) // Balance is in wei
       );
-
       return balance;
     } catch (error) {
       return error as string;
@@ -71,32 +56,15 @@ export default class EthereumRpc {
 
   async sendTransaction(): Promise<any> {
     try {
-      // For ethers v5
-      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const ethersProvider = new ethers.BrowserProvider(this.provider);
-
-      // For ethers v5
-      // const signer = ethersProvider.getSigner();
       const signer = await ethersProvider.getSigner();
-
       const destination = "0xD8a394e7d7894bDF2C57139fF17e5CBAa29Dd977"; // Alice
-
-      // Convert 1 ether to wei
-      // For ethers v5
-      // const amount = ethers.utils.parseEther("0.001");
-      const amount = ethers.parseEther("0.001");
-
-      // Submit transaction to the blockchain
+      const amount = ethers.parseEther("0.000001");
       const tx = await signer.sendTransaction({
         to: destination,
         value: amount,
-        // maxPriorityFeePerGas: "5000000000", // Max priority fee per gas
-        // maxFeePerGas: "6000000000000", // Max fee per gas
       });
-
-      // Wait for transaction to be mined
       const receipt = await tx.wait();
-
       return receipt;
     } catch (error) {
       return error as string;
@@ -105,18 +73,10 @@ export default class EthereumRpc {
 
   async signMessage() {
     try {
-      // For ethers v5
-      // const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const ethersProvider = new ethers.BrowserProvider(this.provider);
-
-      // For ethers v5
-      // const signer = ethersProvider.getSigner();
       const signer = await ethersProvider.getSigner();
       const originalMessage = "YOUR_MESSAGE";
-
-      // Sign the message
       const signedMessage = await signer.signMessage(originalMessage);
-
       return signedMessage;
     } catch (error) {
       return error as string;
@@ -128,7 +88,6 @@ export default class EthereumRpc {
       const privateKey = await this.provider.request({
         method: "eth_private_key",
       });
-
       return privateKey;
     } catch (error) {
       return error as string;
