@@ -31,7 +31,6 @@ function App() {
   const [userEthBal, setUserEthBal] = useState<Number | null>(88888);
   const [currentNetworkName, setCurrentNetworkName] = useState<String | null>("Fakenet");
   const [loading, setLoading] = useState<Boolean>(false);
-
   
   useEffect(() => {
     const init = async () => {
@@ -145,15 +144,15 @@ function App() {
         //   web3AuthNetwork: "testnet",
         // });
 
-        // it will add/update  the metamask adapter in to web3auth class
+        // // it will add/update  the metamask adapter in to web3auth class
         // web3auth.configureAdapter(metamaskAdapter);
 
-        const torusWalletAdapter = new TorusWalletAdapter({
-          clientId,
-        });
+        // const torusWalletAdapter = new TorusWalletAdapter({
+        //   clientId,
+        // });
 
-        // it will add/update  the torus-evm adapter in to web3auth class
-        web3auth.configureAdapter(torusWalletAdapter);
+        // // it will add/update  the torus-evm adapter in to web3auth class
+        // web3auth.configureAdapter(torusWalletAdapter);
 
         setWeb3auth(web3auth);
 
@@ -198,19 +197,15 @@ function App() {
   }
 
   useEffect(() => {
-    // const yo = async () => {
-      try {
-        if (!provider) {
-          uiConsole("provider not initialized yet");
-          return;
-        }
-        update()
-      } catch(e) {
-        
+    try {
+      if (!provider) {
+        uiConsole("provider not initialized yet");
+        return;
       }
-    // }
-    
-    // yo()
+      update()
+    } catch(e) {
+      console.log(e)
+    }
   }, [provider]);
 
   const login = async () => {
