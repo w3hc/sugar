@@ -2,10 +2,10 @@
 
 A Web3 app boilerplate that's using: 
 
-- Next.js
-- Chakra UI
-- Ethers
-- Web3Auth
+- [Next.js](https://nextjs.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Ethers](https://docs.ethers.org/)
+- [Web3Auth](https://web3auth.io/)
 
 ## Install
 
@@ -46,6 +46,9 @@ npm install n -g && n stable && npm install -g pnpm && pnpm i && pnpm run build
 ## Versions
 
 - Node [v18.17.1](https://nodejs.org/uk/blog/release/v18.17.1/)
+- Ethers [v6.7.0]()
+- Web3Auth [6.1.4]()
+- Next.js [13.4.12]()
 
 ## Support
 
