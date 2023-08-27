@@ -14,6 +14,7 @@ import {
 } from "@web3auth/wallet-connect-v2-adapter";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
+import { Flex, useColorModeValue, Spacer, Heading, Button } from '@chakra-ui/react'
 
 const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || ''; // get yours at https://dashboard.web3auth.io
 const mainnetRpcEndpoint = process.env.NEXT_PUBLIC_ETHEREUM_RPC_ENPOINT_URL || '';
@@ -33,7 +34,7 @@ function App() {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: goerliRpcEndpoint,
+            rpcTarget: mainnetRpcEndpoint,
           },
           uiConfig: {
             appName: "Sugar",
@@ -139,7 +140,7 @@ function App() {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: mainnetRpcEndpoint,
           },
         });
         // we can change the above settings using this function
@@ -148,7 +149,7 @@ function App() {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: mainnetRpcEndpoint,
           },
           web3AuthNetwork: "testnet",
         });
@@ -438,11 +439,12 @@ function App() {
             Get Private Key
           </button>
         </div>
-        <div>
+        {/* <div>
           <button onClick={logout} className="card">
             Log Out
           </button>
-        </div>
+        </div> */}
+        <br /><br /><br />
       </div>
       <div id="console" style={{ whiteSpace: "pre-line" }}>
         <p style={{ whiteSpace: "pre-line" }}></p>
@@ -452,22 +454,38 @@ function App() {
 
   const unloggedInView = (
     <button onClick={login} className="card">
-      Login
+      
     </button>
   );
 
   return (
+    <><Flex as="header" bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')} px={4} py={5} mb={8} alignItems="center">
+      
+
+      <Spacer />
+
+      <Flex alignItems="center" gap={4}>
+        {loggedIn ? 
+          <Button colorScheme="purple" variant="outline" onClick={logout} size='sm'>
+            Logout
+          </Button> :
+          <Button colorScheme="purple" variant="outline" onClick={login} size='sm'>
+            Login
+          </Button>}
+      </Flex>
+    </Flex>
+    <main>
+
+
+      <p>Hello</p>
+
+
+    </main>
     <div className="container">
-      <h1 className="title">
-        <a target="_blank" href="https://github.com/w3hc/sugar" rel="noreferrer">
-          Hello world!{" "}
-        </a>
-        
-      </h1>
 
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
 
-      <footer className="footer">
+      {/* <footer className="footer">
         <a
           href="https://github.com/w3hc/sugar"
           target="_blank"
@@ -475,8 +493,8 @@ function App() {
         >
           Source code
         </a>
-      </footer>
-    </div>
+      </footer> */}
+    </div></>
   );
 }
 
