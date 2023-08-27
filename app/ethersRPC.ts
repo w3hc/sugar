@@ -84,7 +84,7 @@ export default class EthereumRpc {
       // Convert 1 ether to wei
       // For ethers v5
       // const amount = ethers.utils.parseEther("0.001");
-      const amount = ethers.parseEther("0.001");
+      const amount = ethers.parseEther("0.00001");
 
       // Submit transaction to the blockchain
       const tx = await signer.sendTransaction({
