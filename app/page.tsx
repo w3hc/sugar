@@ -6,7 +6,7 @@ import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import "./globals.css";
-import RPC from "./ethersRPC"; // for using ethers.js
+import RPC from "./ethersRPC";
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
 import {
   WalletConnectV2Adapter,
@@ -15,10 +15,10 @@ import {
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
 import { Flex, useColorModeValue, Spacer, Heading, Button, Container, Box, Text } from '@chakra-ui/react'
-// import { ethers } from "ethers";
 import loader from "./reggae-loader.svg";
+import {nftAddress, nftAbi} from "./config";
 
-const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || ''; // get yours at https://dashboard.web3auth.io
+const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_KEY || '';
 const mainnetRpcEndpoint = process.env.NEXT_PUBLIC_ETHEREUM_RPC_ENPOINT_URL || '';
 const goerliRpcEndpoint = process.env.NEXT_PUBLIC_GOERLI_RPC_ENPOINT_URL || '';
 
@@ -28,7 +28,7 @@ function App() {
   const [torusPlugin, setTorusPlugin] = useState<TorusWalletConnectorPlugin | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userEthBal, setUserEthBal] = useState<Number | null>(88888);
+  const [userEthBal, setUserEthBal] = useState<Number | null>(8.88888);
   const [currentNetworkName, setCurrentNetworkName] = useState<String | null>("Fakenet");
   const [loading, setLoading] = useState<Boolean>(false);
   
@@ -44,12 +44,12 @@ function App() {
           },
           uiConfig: {
             appName: "Sugar",
-            appLogo: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png", // Your App Logo Here
+            appLogo: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
             theme: "dark",
             loginMethodsOrder: ["apple", "google", "twitter"],
-            defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
+            defaultLanguage: "en",
             loginGridCol: 3,
-            primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
+            primaryButton: "externalLogin",
           },
           web3AuthNetwork: "testnet",
         });
@@ -59,7 +59,7 @@ function App() {
             mfaLevel: "optional",
           },
           adapterSettings: {
-            uxMode: "popup", // "redirect" | "popup"
+            uxMode: "popup",
             whiteLabel: {
               name: "Sugar",
               logoLight: "https://bafybeihplbv34hybwkmjzv4zrm3sfdjqvxoknoplldaav23cdbekrlats4.ipfs.w3s.link/w3hc-logo-circle.png",
@@ -163,6 +163,7 @@ function App() {
         if (web3auth.connected) {
           setLoggedIn(true);
         }
+
       } catch (error) {
         console.error(error);
       }
@@ -179,7 +180,7 @@ function App() {
     }
     const rpc = new RPC(provider);
     const balance = await rpc.getBalance();
-    uiConsole(balance);
+    // uiConsole(balance);
     setUserEthBal(Number(balance))
     return balance
   };
@@ -189,10 +190,23 @@ function App() {
       uiConsole("provider not initialized yet");
       return;
     }
+    const newChain = {
+      chainId: "0x5",
+      displayName: "Goerli",
+      chainNamespace: CHAIN_NAMESPACES.EIP155,
+      tickerName: "Goerli",
+      ticker: "ETH",
+      decimals: 18,
+      rpcTarget: "https://rpc.ankr.com/eth_goerli",
+      blockExplorer: "https://goerli.etherscan.io",
+    };
+    await web3auth?.addChain(newChain);
+    await web3auth?.switchChain({ chainId: "0x5" });
     const bal = await getBalance()
-    // setUserEthBal(Number(bal));
-    await getChainName()
-    await switchChain()
+    setUserEthBal(Number(bal));
+    await getChainName()    
+
+
     uiConsole("Up to date");
   }
 
@@ -203,6 +217,7 @@ function App() {
         return;
       }
       update()
+      // faucetCall()
     } catch(e) {
       console.log(e)
     }
@@ -290,8 +305,6 @@ function App() {
     uiConsole(chainName);
   };
 
-  
-
   // const addChain = async () => {
   //   if (!provider) {
   //     uiConsole("provider not initialized yet");
@@ -332,8 +345,9 @@ function App() {
     await web3auth?.switchChain({ chainId: "0x5" });
     const bal = await getBalance()
     setUserEthBal(Number(bal));
-    await getChainName()
-    uiConsole("Switched to Goerli");
+    await getChainName()    
+    console.log('switched to Goerli')
+    // uiConsole("Switched to Goerli");
   };
 
   const getAccounts = async () => {
@@ -346,8 +360,6 @@ function App() {
     uiConsole(address);
   };
 
-  
-
   const sendTransaction = async () => {
     setLoading(true)
     if (!provider) {
@@ -357,10 +369,42 @@ function App() {
     const rpc = new RPC(provider);
     uiConsole("Sending ETH...");
     const receipt = await rpc.sendTransaction();
-    await getBalance()
+    console.log("transfer:", receipt)
     uiConsole('tx hash: '+ receipt.hash);
+    getBalance()
     setLoading(false)
   };
+
+  const mint = async () => {
+    setLoading(true)
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    uiConsole("Minting...");
+    const mint = await rpc.mint(nftAddress, nftAbi);
+    console.log("mint:", mint)
+    uiConsole('mint tx hash: '+ mint.hash);
+    getBalance()
+    setLoading(false)
+  };
+
+  const faucetCall = async () => {
+    setLoading(true)
+    if (!provider) {
+      uiConsole("provider not initialized yet");
+      return;
+    }
+    const rpc = new RPC(provider);
+    uiConsole("Sending ETH...");
+    const faucetCall = await rpc.faucetCall();
+    console.log("faucetCall:", faucetCall)
+    uiConsole('faucet tx hash: '+ faucetCall.hash);
+    getBalance()
+    setLoading(false)
+  };
+  
 
   const signMessage = async () => {
     if (!provider) {
@@ -392,7 +436,7 @@ function App() {
   const loggedInView = (
     <>
       <div className="flex-container">
-        <Text fontSize='18px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toString()} ETH.</Text>
+        <Text fontSize='18px' color='white'>You&apos;re connected to {currentNetworkName} and your balance is {userEthBal?.toFixed(5)} ETH.</Text>
           <br />
           <Button mt = {3} onClick={getUserInfo} colorScheme="blue" variant="outline" size='xs'>
             Get User Info
@@ -409,7 +453,7 @@ function App() {
         </div> */}
         <div>
           <Button mt = {3} onClick={getChainName} colorScheme="blue" variant="outline" size='xs'>
-            Get Chain name
+            Get network name
           </Button>
         </div>
         
@@ -425,14 +469,14 @@ function App() {
         </div>
         <div>
           <Button mt = {3} onClick={getAccounts} colorScheme="blue" variant="outline" size='xs'>
-            Get Accounts
+            Show my wallet address
           </Button>
         </div>
-        <div>
+        {/* <div>
           <Button mt = {3} onClick={getBalance} colorScheme="blue" variant="outline" size='xs'>
             Get Balance
           </Button>
-        </div>
+        </div> */}
         {/* <div>
           <Button mt = {3} onClick={signMessage} colorScheme="blue" variant="outline" size='xs'>
             Sign Message
@@ -448,6 +492,16 @@ function App() {
             Get Private Key
           </Button>
         </div> */}
+        <div>
+          <Button mt = {3} onClick={faucetCall} colorScheme="pink" variant="solid" size='xs'>
+            Get some ETH
+          </Button>
+        </div>
+        <div>
+          <Button mt = {5} onClick={mint} colorScheme="green" variant="outline" size='md'>
+            Mint
+          </Button>
+        </div>
         <br />
       </div>
         
@@ -457,7 +511,7 @@ function App() {
      
       </div>
       {loading && 
-      <Image alt="loader" src={loader}/>}
+      <Image priority alt="loader" src={loader}/>}
     </>
   );
 
