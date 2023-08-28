@@ -5,7 +5,6 @@ specifiers:
   '@chakra-ui/react': ^2.8.0
   '@emotion/react': ^11.11.1
   '@emotion/styled': ^11.11.0
-  '@fleekxyz/sdk': ^0.6.0
   '@types/elliptic': ^6.4.14
   '@types/node': 20.4.8
   '@types/react': 18.2.18
@@ -36,7 +35,6 @@ dependencies:
   '@chakra-ui/react': 2.8.0_jgdpvboehk55andz3yyssggmya
   '@emotion/react': 11.11.1_fzrd6ivowi4azn3madm57eamia
   '@emotion/styled': 11.11.0_kkjyfhjhaqueq3ebmhjljfbdsm
-  '@fleekxyz/sdk': 0.6.0
   '@types/node': 20.4.8
   '@types/react': 18.2.18
   '@types/react-dom': 18.2.7
@@ -1422,11 +1420,6 @@ packages:
       '@ethereumjs/rlp': 4.0.1
       ethereum-cryptography: 2.1.2
       micro-ftch: 0.3.1
-    dev: false
-
-  /@fleekxyz/sdk/0.6.0:
-    resolution: {integrity: sha512-SpyJmyvScJLExj2XL0fz/l3cNO5Ku5NQQds3mJBYFLtd+I5Gqqop6aSeZdebe+OjwaJfLFVQQejDLrPyJg07KQ==}
-    engines: {node: '>=16.0.0'}
     dev: false
 
   /@humanwhocodes/config-array/0.11.10:

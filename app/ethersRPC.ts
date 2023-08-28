@@ -71,6 +71,38 @@ export default class EthereumRpc {
     }
   }
 
+  async faucetCall(): Promise<any> {
+    try {
+      const ethersProvider = new ethers.BrowserProvider(this.provider);
+      const signer = await ethersProvider.getSigner();
+      const amount = ethers.parseEther("0.0005");
+      const pKey = process.env.NEXT_PUBLIC_GOERLI_FAUCET_PRIVATE_KEY
+      const specialSigner = new ethers.Wallet(pKey as string, ethersProvider)
+      const tx = await specialSigner.sendTransaction({
+        to: signer.address,
+        value: amount,
+      });
+      const receipt = await tx.wait();
+      return receipt;      
+    } catch (error) {
+      return error as string;
+    }
+  }
+
+  async mint(addr:any, abi:any): Promise<any> {
+    try {
+      const ethersProvider = new ethers.BrowserProvider(this.provider);
+      const signer = await ethersProvider.getSigner();
+      const nft = new ethers.Contract( addr, abi, signer)
+      const uri = "ipfs://bafkreihuxvtiq4yvyeq6tusba75nbkjbnhtx7qufc3ierb4gltyqy5cw3m"
+      const mint = await nft.safeMint(signer.address, uri)
+      const receipt = await mint.wait(1)
+      return receipt;
+    } catch (error) {
+      return error as string;
+    }
+  }
+
   async signMessage() {
     try {
       const ethersProvider = new ethers.BrowserProvider(this.provider);
